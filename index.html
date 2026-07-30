@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FunLigues – Classez ce que vous aimez vraiment</title>
+<meta name="description" content="FunLigues : des jeux de classement par duel pour découvrir vos vrais préférés. Ligue des Fruits, Ligue des Fromages et bien d'autres bientôt. Jouez à plusieurs, comparez vos goûts.">
+<meta name="keywords" content="ligue des fruits, ligue des fromages, classement fruits, jeu de goûts, jeu entre amis, funligues, tournoi fruits, préférences alimentaires">
+<meta property="og:title" content="FunLigues – Classez ce que vous aimez vraiment">
+<meta property="og:description" content="Des jeux de classement par duel. Découvrez vos vrais préférés, fruit par fruit, fromage par fromage.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://funligues.com">
+<link rel="canonical" href="https://funligues.com">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Inter:wght@400;500;600&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --violet-deep:   #2d0057;
+    --violet-mid:    #5b21b6;
+    --violet-bright: #7c3aed;
+    --violet-light:  #a78bfa;
+    --white:         #ffffff;
+    --off-white:     #f5f0ff;
+    --text-body:     #e9d5ff;
+    --text-muted:    #c4b5fd;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: var(--violet-deep);
+    color: var(--white);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1.2rem 1.5rem;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 0%, #7c3aed44 0%, transparent 70%),
+      radial-gradient(ellipse 60% 40% at 80% 80%, #db2777 22 0%, transparent 60%),
+      linear-gradient(160deg, #2d0057 0%, #3b0764 40%, #1e003d 100%);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Confettis décoratifs */
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(circle, #a78bfa55 1.5px, transparent 1.5px),
+      radial-gradient(circle, #f9a8d455 1px, transparent 1px);
+    background-size: 48px 48px, 24px 24px;
+    background-position: 0 0, 12px 12px;
+    opacity: 0.35;
+    pointer-events: none;
+  }
+
+  .hero-inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    width: 100%;
+    max-width: 540px;
+  }
+
+  /* ── LOGO / TITRE ── */
+  .logo-label {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(3rem, 14vw, 5.5rem);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    background: linear-gradient(120deg, #f9a8d4 0%, #fde68a 35%, #a5f3fc 65%, #c4b5fd 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-align: center;
+    margin-bottom: 0.5rem;
+    padding: 0 1rem;
+    filter: drop-shadow(0 2px 24px #7c3aed88);
+  }
+
+  .hero-tagline {
+    font-size: clamp(0.85rem, 3.5vw, 1.05rem);
+    color: var(--text-muted);
+    text-align: center;
+    margin-bottom: 2.8rem;
+    letter-spacing: 0.01em;
+  }
+
+  /* ── LEAGUE CARDS ── */
+  .leagues {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+  }
+
+  .league-card {
+    display: flex;
+    align-items: center;
+    gap: 1.1rem;
+    padding: 1.2rem 1.4rem;
+    border-radius: 20px;
+    border: 1.5px solid transparent;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+    position: relative;
+    overflow: hidden;
+    min-height: 88px;
+  }
+
+  .league-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.18s ease;
+    border-radius: inherit;
+  }
+
+  /* Fruits */
+  .league-fruits {
+    background: linear-gradient(135deg, #fff8f0 0%, #fff0f5 50%, #f0fff4 100%);
+    border-color: #fbbf2444;
+    box-shadow: 0 4px 24px #ff6b3533;
+  }
+  .league-fruits:hover {
+    transform: translateY(-3px) scale(1.01);
+    box-shadow: 0 12px 36px #ff6b3555;
+    border-color: #fb923c;
+  }
+
+  /* Fromages */
+  .league-fromages {
+    background: linear-gradient(135deg, #fefce8 0%, #fff7ed 50%, #eff6ff 100%);
+    border-color: #fbbf2422;
+    box-shadow: 0 4px 24px #f59e0b22;
+    opacity: 0.62;
+    cursor: default;
+  }
+
+  .league-icon {
+    font-size: 2.8rem;
+    line-height: 1;
+    flex-shrink: 0;
+    filter: drop-shadow(0 2px 8px rgba(0,0,0,0.1));
+  }
+
+  .league-info { flex: 1; min-width: 0; }
+
+  .league-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 3px;
+  }
+
+  .league-fruits .league-name {
+    background: linear-gradient(90deg, #ff6b35 0%, #f7c59f 50%, #2ecc71 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .league-fromages .league-name {
+    background: linear-gradient(90deg, #d97706 0%, #f59e0b 40%, #3b82f6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .league-desc {
+    font-size: 0.8rem;
+    color: #666;
+    line-height: 1.4;
+  }
+
+  .league-arrow {
+    font-size: 1.3rem;
+    flex-shrink: 0;
+    color: #999;
+    transition: transform 0.18s ease;
+  }
+  .league-fruits:hover .league-arrow {
+    transform: translateX(4px);
+    color: #fb923c;
+  }
+
+  .badge-soon {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 20px;
+    background: linear-gradient(90deg, #fbbf24, #60a5fa);
+    color: #fff;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    margin-top: 4px;
+    text-transform: uppercase;
+  }
+
+  /* ── SCROLL HINT ── */
+  .scroll-hint {
+    position: relative;
+    z-index: 1;
+    margin-top: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    opacity: 0.7;
+    animation: bobble 2.4s ease-in-out infinite;
+  }
+  @keyframes bobble {
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(6px); }
+  }
+
+  /* ── ADSENSE BANNER ── */
+  .ad-strip {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: #1a0035;
+    border-top: 1px solid #ffffff28;
+    padding: 0.6rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 66px;
+    gap: 1rem;
+  }
+  /* Compensation pour que le contenu ne passe pas sous la barre fixe */
+  body { padding-bottom: 66px; }
+  .ad-label {
+    font-size: 0.65rem;
+    color: #ffffff40;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    flex-shrink: 0;
+  }
+  .ad-slot {
+    flex: 1;
+    max-width: 728px;
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px dashed #ffffff1a;
+    border-radius: 8px;
+    color: #ffffff25;
+    font-size: 0.75rem;
+  }
+  /* Placeholder visuel — à remplacer par le tag AdSense */
+  /* <ins class="adsbygoogle" ...></ins> */
+
+  /* ── SEO SECTION ── */
+  .seo {
+    background: #1e0040;
+    padding: 3rem 1.2rem 4rem;
+    border-top: 1px solid #ffffff0d;
+  }
+
+  .seo-inner {
+    max-width: 720px;
+    margin: 0 auto;
+    display: grid;
+    gap: 2.5rem;
+  }
+
+  .seo h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--violet-light);
+    margin-bottom: 0.75rem;
+  }
+
+  .seo p, .seo li {
+    font-size: 0.9rem;
+    color: var(--text-body);
+    line-height: 1.75;
+  }
+
+  .seo ul {
+    padding-left: 1.1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .seo-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem;
+  }
+  @media(max-width: 480px) {
+    .seo-grid { grid-template-columns: 1fr; }
+  }
+
+  .seo-card {
+    background: #2d0057;
+    border: 1px solid #7c3aed44;
+    border-radius: 14px;
+    padding: 1.1rem 1.2rem;
+  }
+  .seo-card h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--violet-light);
+    margin-bottom: 0.5rem;
+  }
+  .seo-card p {
+    font-size: 0.83rem;
+    color: #c4b5fd;
+    line-height: 1.6;
+  }
+
+  .faq { display: flex; flex-direction: column; gap: 1rem; }
+  .faq-item { border-bottom: 1px solid #ffffff12; padding-bottom: 1rem; }
+  .faq-q {
+    font-weight: 600;
+    color: var(--white);
+    font-size: 0.9rem;
+    margin-bottom: 0.35rem;
+  }
+  .faq-a {
+    font-size: 0.85rem;
+    color: var(--text-body);
+    line-height: 1.6;
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    background: #0f0020;
+    padding: 1.2rem;
+    text-align: center;
+    font-size: 0.75rem;
+    color: #ffffff33;
+    border-top: 1px solid #ffffff0d;
+  }
+</style>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5563397793004019" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero" aria-label="Accueil FunLigues">
+  <div class="hero-inner">
+
+    <h1 class="logo-label">funligues</h1>
+    <p class="hero-tagline">Classez ce que vous aimez vraiment — en duel, entre amis.</p>
+
+    <nav class="leagues" aria-label="Ligues disponibles">
+
+      <!-- Ligue des Fruits -->
+      <a class="league-card league-fruits" href="fruits.html" aria-label="Jouer à la Ligue des Fruits">
+        <div class="league-icon" aria-hidden="true">🍓</div>
+        <div class="league-info">
+          <div class="league-name">Ligue des Fruits</div>
+          <div class="league-desc">20 fruits · 190 duels · jusqu'à 8 joueurs</div>
+        </div>
+        <div class="league-arrow" aria-hidden="true">→</div>
+      </a>
+
+      <!-- Ligue des Fromages (bientôt) -->
+      <div class="league-card league-fromages" aria-disabled="true" role="button" tabindex="-1" aria-label="Ligue des Fromages, bientôt disponible">
+        <div class="league-icon" aria-hidden="true">🧀</div>
+        <div class="league-info">
+          <div class="league-name">Ligue des Fromages</div>
+          <span class="badge-soon">Bientôt disponible</span>
+        </div>
+        <div class="league-arrow" aria-hidden="true" style="color:#ccc">⏳</div>
+      </div>
+
+    </nav>
+
+    <div class="scroll-hint" aria-hidden="true">
+      <span>En savoir plus</span>
+      <span style="font-size:1.1rem">↓</span>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══ PUBLICITÉ ADSENSE ═══ -->
+<!-- Remplacer le contenu de .ad-slot par votre tag AdSense -->
+<div class="ad-strip" aria-label="Publicité">
+  <span class="ad-label">Pub</span>
+  <div class="ad-slot" id="adsense-banner">
+    <ins class="adsbygoogle"
+      style="display:block"
+      data-ad-client="ca-pub-5563397793004019"
+      data-ad-format="auto"
+      data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+</div>
+
+<!-- ═══ SEO & LLM CONTENT ═══ -->
+<section class="seo" aria-label="À propos de FunLigues">
+  <div class="seo-inner">
+
+    <div>
+      <h2>Qu'est-ce que FunLigues ?</h2>
+      <p>FunLigues est un site de jeux de classement par duels. Le principe est simple : deux options s'affrontent, vous choisissez votre préférée. À la fin de tous les matchs, un classement personnalisé révèle vos vraies préférences — celles que vous n'auriez pas forcément su formuler à l'avance.</p>
+      <p style="margin-top:0.75rem">Chaque ligue couvre un univers différent : fruits, fromages, et bientôt bien d'autres. FunLigues se joue seul ou jusqu'à 8 joueurs, pour comparer les classements et découvrir les désaccords.</p>
+    </div>
+
+    <div class="seo-grid">
+      <div class="seo-card">
+        <h3>🍓 Ligue des Fruits</h3>
+        <p>20 fruits s'affrontent en 190 duels. Abricot, framboise, mangue, fruit de la passion… Lequel mérite la première place dans votre classement ?</p>
+      </div>
+      <div class="seo-card">
+        <h3>🧀 Ligue des Fromages</h3>
+        <p>Bientôt disponible. Comté, brie, roquefort, camembert… La grande question du fromage français sera enfin tranchée, duel après duel.</p>
+      </div>
+    </div>
+
+    <div>
+      <h2>Comment fonctionne le système de duel ?</h2>
+      <p>FunLigues utilise un format de tournoi aller : chaque élément affronte tous les autres exactement une fois. Ce format, inspiré des championnats de football, garantit que votre classement final reflète fidèlement vos préférences sur l'ensemble du champ — pas seulement un coup de chance lors d'une finale.</p>
+      <ul style="margin-top:0.75rem">
+        <li>Chaque victoire rapporte 3 points</li>
+        <li>Les matchs sont présentés dans un ordre aléatoire</li>
+        <li>Le classement final est calculé automatiquement</li>
+        <li>Les résultats sont exportables en JSON ou en captures d'écran</li>
+      </ul>
+    </div>
+
+    <div>
+      <h2>Questions fréquentes</h2>
+      <div class="faq">
+        <div class="faq-item">
+          <p class="faq-q">FunLigues est-il gratuit ?</p>
+          <p class="faq-a">Oui, entièrement. Toutes les ligues disponibles sont accessibles gratuitement, sans inscription.</p>
+        </div>
+        <div class="faq-item">
+          <p class="faq-q">Peut-on jouer à plusieurs ?</p>
+          <p class="faq-a">Oui. Jusqu'à 8 joueurs peuvent participer à la même session, soit en se passant un même téléphone ou ordinateur à tour de rôle, soit en se connectant chacun au site depuis son propre appareil. À la fin, chaque joueur dispose de son propre classement personnalisé.</p>
+        </div>
+        <div class="faq-item">
+          <p class="faq-q">Comment sont sauvegardés les résultats ?</p>
+          <p class="faq-a">À la fin de la partie, vous pouvez télécharger les résultats au format JSON ou générer une capture d'écran du classement de chaque joueur.</p>
+        </div>
+        <div class="faq-item">
+          <p class="faq-q">D'autres ligues sont-elles prévues ?</p>
+          <p class="faq-a">Oui. La Ligue des Fromages arrive prochainement. D'autres univers sont en réflexion.</p>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <h2>Pourquoi FunLigues ?</h2>
+      <p>Les sondages classiques vous demandent de noter des options de façon abstraite. FunLigues force un choix concret entre deux possibilités précises — ce qui est psychologiquement bien plus révélateur. Vous découvrez souvent des choses sur vos propres goûts. Et comparer son classement avec ses amis génère inévitablement des débats savoureux.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer class="footer">
+  <p>© 2026 FunLigues · <a href="mentions-legales.html" style="color:inherit;text-decoration:underline">Mentions légales</a> · Tous droits réservés</p>
+</footer>
+
+</body>
+</html>
