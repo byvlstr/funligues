@@ -211,4 +211,4 @@ async function startScreenshots(){
   card.innerHTML='';
 }
 
-initSetup();
+document.addEventListener('DOMContentLoaded', initSetup);
