@@ -1,0 +1,10 @@
+# FunLigues
+> Jeux de classement par duel pour découvrir ses préférences.
+
+## Pages
+- /index.html : Page d'accueil, présentation des ligues
+- /fruits.html : Ligue des Fruits — 20 fruits, 190 duels, jusqu'à 8 joueurs
+- /mentions-legales.html : Mentions légales et politique de confidentialité
+
+## À venir
+- Ligue des Fromages
