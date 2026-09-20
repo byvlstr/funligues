@@ -4,6 +4,7 @@
 ## Pages
 - /index.html : Page d'accueil, présentation des ligues
 - /fruits.html : Ligue des Fruits — 20 fruits, 190 duels, jusqu'à 8 joueurs
+- /fruits-express.html : Ligue des Fruits Express — 15 fruits, 105 duels, jusqu'à 8 joueurs
 - /fromages.html : Ligue des Fromages — 15 fromages, 105 duels, jusqu'à 8 joueurs
 - /mentions-legales.html : Mentions légales et politique de confidentialité
 
