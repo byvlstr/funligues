@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1TK5W269V3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-1TK5W269V3');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="index, follow">
+<meta name="description" content="Ligue des Fruits Express : découvrez votre classement de fruits préférés en 105 duels. Jouez seul ou jusqu'à 8 joueurs. Abricot, mangue, fraise, passion… qui gagne votre ligue ?">
+<title>Ligue des Fruits Express</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👑</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="fruits-express/fruits-express.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5563397793004019" crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="app">
+
+<div class="header">
+  <h1>🏆 Ligue des Fruits Express</h1>
+  <p>Jusqu'à 8 joueurs · 15 fruits · Tous les matchs aller</p>
+</div>
+
+<div class="tabs">
+  <button class="tab active" onclick="showTab('setup')">Joueurs</button>
+  <button class="tab" onclick="showTab('match')">Matchs</button>
+  <button class="tab" onclick="showTab('results')">Classement</button>
+</div>
+
+<div id="setup" class="section active">
+  <p style="font-size:13px;color:#666;margin-bottom:12px">Entrez les noms des joueurs (min. 1, max. 8). Laissez vide pour ignorer.</p>
+  <div class="player-grid" id="players-grid"></div>
+  <div style="text-align:center;margin-top:1rem">
+    <button class="btn btn-primary" onclick="startGame()">Lancer la ligue !</button>
+  </div>
+  <div style="margin-top:1.8rem;padding:1rem 1.1rem;background:#fdf8f8;border-radius:12px;border:1px solid #f5e5e5">
+    <p style="font-size:13px;font-weight:600;color:#c0392b;margin-bottom:6px">📋 Règles du jeu</p>
+    <p style="font-size:13px;color:#555;line-height:1.6">La ligue des fruits express permet d'établir un classement de vos fruits préférés.<br><br>Chaque joueur choisit son fruit préféré entre deux fruits, parmi les 20 fruits sélectionnés. Au total, il y a 190 matchs de fruits.<br><br><em>Aide pour choisir : considérer la meilleure version possible du fruit, sans prendre en compte les contraintes techniques (noyaux, découpe, etc.).</em></p>
+  </div>
+</div>
+
+<div id="match" class="section">
+  <div id="match-content"></div>
+</div>
+
+<div id="results" class="section">
+  <button class="btn-save" id="btn-save-main" onclick="openSaveModal()">💾 Partager les résultats</button>
+  <div id="results-content"></div>
+</div>
+
+</div>
+
+<!-- POPUP SAUVEGARDE -->
+<div class="modal-overlay" id="save-modal" onclick="closeSaveModal(event)">
+  <div class="modal">
+    <div class="modal-title">💾 Partager les résultats</div>
+    <div class="modal-sub">Choisissez votre format de partage</div>
+
+    <div class="save-options" id="save-options-list">
+      <button class="save-option" onclick="startScreenshots()">
+        <div class="save-option-icon">📸</div>
+        <div class="save-option-text">
+          <strong>Captures d'écran des classements</strong>
+          <span>Génère et télécharge une image PNG du classement pour chaque joueur.</span>
+        </div>
+      </button>
+      <button class="save-option" onclick="exportJSON()">
+        <div class="save-option-icon">📄</div>
+        <div class="save-option-text">
+          <strong>Télécharger les données (JSON)</strong>
+          <span>Fichier structuré avec tous les scores et classements de chaque joueur. Réimportable.</span>
+        </div>
+      </button>
+    </div>
+
+    <div class="capture-progress" id="capture-progress"></div>
+
+    <button class="modal-close" onclick="closeSaveModal()">Fermer</button>
+  </div>
+</div>
+
+<!-- CARD OFF-SCREEN POUR CAPTURE -->
+<div class="snapshot-card" id="snapshot-card"></div>
+<div style="text-align:center;padding:1rem 0 0.5rem">
+  <a href="index.html" style="display:inline-flex;align-items:center;gap:6px;color:#999;font-size:13px;text-decoration:none;padding:8px 16px;border-radius:20px;border:1px solid #e5e5e5;transition:all 0.15s" onmouseover="this.style.color='#e74c3c';this.style.borderColor='#e74c3c'" onmouseout="this.style.color='#999';this.style.borderColor='#e5e5e5'">
+    ← Retour à FunLigues
+  </a>
+</div>
+
+<script src="fruits-express/fruits-express.js"></script>
+
+</body>
+</html>
